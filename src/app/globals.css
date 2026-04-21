@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap');
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-ivory text-bark font-sans;
+  }
+
+  h1, h2, h3 {
+    @apply font-serif;
+  }
+
+  * {
+    @apply transition-colors duration-150;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-bark text-ivory px-6 py-2.5 rounded-full font-medium text-sm hover:bg-rose transition-all duration-200 shadow-soft hover:shadow-md active:scale-95;
+  }
+
+  .btn-ghost {
+    @apply text-bark border border-mauve px-6 py-2.5 rounded-full font-medium text-sm hover:bg-blush transition-all duration-200 active:scale-95;
+  }
+
+  .card {
+    @apply bg-white rounded-xl2 shadow-card border border-blush;
+  }
+
+  .input {
+    @apply w-full border border-mauve rounded-xl px-4 py-2.5 text-sm bg-white placeholder-mauve focus:outline-none focus:ring-2 focus:ring-rose/30 focus:border-rose;
+  }
+
+  .tag {
+    @apply text-xs px-3 py-1 rounded-full bg-blush text-bark font-medium;
+  }
+}
+
+/* Soft fade-in animation */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-up {
+  animation: fadeUp 0.35s ease-out both;
+}
