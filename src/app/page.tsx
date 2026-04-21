@@ -6,22 +6,12 @@ import { getProfile } from '@/lib/storage'
 
 export default function Home() {
   const router = useRouter()
-
   useEffect(() => {
-    const profile = getProfile()
-    if (profile) {
-      router.replace('/feed')
-    } else {
-      router.replace('/onboarding')
-    }
+    router.replace(getProfile() ? '/dashboard' : '/onboarding')
   }, [router])
-
   return (
-    <div className="min-h-screen flex items-center justify-center bg-ivory">
-      <div className="text-center space-y-3">
-        <h1 className="font-serif text-4xl text-bark tracking-tight">साथ</h1>
-        <p className="text-mauve text-sm">Loading…</p>
-      </div>
+    <div className="min-h-screen flex items-center justify-center bg-white">
+      <p className="font-serif text-2xl text-ink">Saath</p>
     </div>
   )
 }

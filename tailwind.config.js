@@ -8,25 +8,36 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        blush:    '#F5F1EC',   // warm stone — backgrounds, tags
-        ivory:    '#FAFAF7',   // page background
-        mauve:    '#9A9187',   // secondary text, borders
-        rose:     '#5C4A3A',   // dark warm brown — active states, CTAs
-        gold:     '#C9A96E',   // champagne gold accent
-        bark:     '#1C1C1C',   // near black — primary text
-        petal:    '#EDE8E2',   // light stone — subtle fills
-        mist:     '#F8F5F1',   // warm white — card backgrounds
+        // Base
+        ivory:   '#FFFFFF',       // page background — pure white
+        surface: '#F8F6F3',       // subtle warm off-white sections
+        border:  '#E5DDD4',       // 1px borders everywhere
+        // Typography
+        ink:     '#141414',       // primary — near black
+        dim:     '#8A8078',       // secondary — warm gray
+        faint:   '#C0BAB0',       // tertiary / placeholders
+        // Accent
+        gold:    '#B8965C',       // champagne — used very sparingly
+        // Status
+        decided:   '#2D5A3D',     // deep green
+        exploring: '#8B6914',     // warm amber
+        // Legacy aliases so old classes still work
+        blush:   '#F8F6F3',
+        bark:    '#141414',
+        mauve:   '#8A8078',
+        rose:    '#141414',
+        petal:   '#E5DDD4',
+        mist:    '#F8F6F3',
       },
       fontFamily: {
-        serif:  ['Cormorant Garamond', 'Georgia', 'serif'],
-        sans:   ['Inter', 'system-ui', 'sans-serif'],
+        serif: ['Cormorant Garamond', 'Georgia', 'serif'],
+        sans:  ['Inter', 'system-ui', 'sans-serif'],
       },
-      boxShadow: {
-        soft: '0 2px 20px rgba(201,122,154,0.10)',
-        card: '0 4px 30px rgba(123,61,94,0.08)',
+      fontSize: {
+        '2xs': ['0.65rem', { lineHeight: '1rem' }],
       },
-      borderRadius: {
-        xl2: '1.25rem',
+      letterSpacing: {
+        widest2: '0.2em',
       },
     },
   },

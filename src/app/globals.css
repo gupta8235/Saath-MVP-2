@@ -2,65 +2,67 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Inter:wght@300;400;500;600&display=swap');
 
 @layer base {
-  html {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
-  body {
-    @apply bg-ivory text-bark font-sans;
-  }
-
-  h1, h2, h3 {
-    @apply font-serif;
-  }
+  html { -webkit-font-smoothing: antialiased; }
+  body { @apply bg-ivory text-ink font-sans; }
+  h1, h2, h3, h4 { @apply font-serif; }
 }
 
 @layer components {
-  /* Primary button: crisp black/charcoal */
+  /* Primary: solid black rectangle */
   .btn-primary {
-    @apply bg-bark text-white px-6 py-2.5 rounded-full font-medium text-sm
-           hover:bg-rose transition-all duration-200
-           shadow-sm hover:shadow-md active:scale-95 tracking-wide;
+    @apply bg-ink text-white px-8 py-3 text-xs font-medium tracking-widest uppercase
+           hover:bg-dim transition-colors duration-200 active:scale-[0.98];
   }
 
-  /* Ghost button: clean outline */
+  /* Ghost: outlined rectangle */
   .btn-ghost {
-    @apply text-bark border border-mauve/50 px-6 py-2.5 rounded-full
-           font-medium text-sm hover:border-bark hover:bg-petal
-           transition-all duration-200 active:scale-95 tracking-wide;
+    @apply border border-ink text-ink px-8 py-3 text-xs font-medium tracking-widest uppercase
+           hover:bg-ink hover:text-white transition-colors duration-200 active:scale-[0.98];
   }
 
-  /* Card: clean white with subtle border */
+  /* Card: white, 1px border, no shadow */
   .card {
-    @apply bg-white rounded-2xl border border-petal shadow-sm;
+    @apply bg-white border border-border;
   }
 
-  /* Input: minimal, clean */
+  /* Input: clean, minimal */
   .input {
-    @apply w-full border border-petal rounded-xl px-4 py-2.5 text-sm bg-white
-           placeholder-mauve/60 focus:outline-none focus:ring-1
-           focus:ring-bark/20 focus:border-bark/40 transition-all;
+    @apply w-full border border-border px-4 py-3 text-sm bg-white text-ink
+           placeholder-faint focus:outline-none focus:border-ink transition-colors;
   }
 
-  /* Tag: stone chip */
+  /* Label: uppercase small caps */
+  .label {
+    @apply text-2xs font-medium tracking-widest uppercase text-dim;
+  }
+
+  /* Tag: minimal border chip */
   .tag {
-    @apply text-xs px-3 py-1 rounded-full bg-petal text-bark/70 font-medium tracking-wide;
+    @apply text-2xs px-2.5 py-1 border border-border text-dim tracking-wider uppercase;
+  }
+
+  /* Section divider */
+  .divider {
+    @apply border-t border-border;
   }
 }
 
-/* Fade-up animation */
+/* Fade animations */
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(10px); }
+  from { opacity: 0; transform: translateY(8px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-.fade-up {
-  animation: fadeUp 0.3s ease-out both;
-}
+.fade-up { animation: fadeUp 0.3s ease-out both; }
 
-/* Hide scrollbar */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.fade-in { animation: fadeIn 0.4s ease-out both; }
+
+/* Scrollbar hide */
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }

@@ -1,4 +1,4 @@
-// ─── User / Onboarding ───────────────────────────────────────────────────────
+// ─── Wedding Profile ──────────────────────────────────────────────────────────
 
 export type StyleVibe =
   | 'Regal & Traditional'
@@ -17,12 +17,43 @@ export type BudgetRange =
 export interface WeddingProfile {
   name: string
   partnerName: string
-  weddingDate: string        // ISO date string
+  weddingDate: string
   location: string
   guestCount: number
   budget: BudgetRange
   vibes: StyleVibe[]
-  completedAt: string        // ISO timestamp
+  completedAt: string
+}
+
+// ─── Decisions ───────────────────────────────────────────────────────────────
+
+export type DecisionStatus = 'pending' | 'exploring' | 'decided'
+
+export interface WeddingDecision {
+  id: string
+  category: string
+  title: string
+  status: DecisionStatus
+  note?: string
+  updatedAt?: string
+}
+
+// ─── Style Quiz ───────────────────────────────────────────────────────────────
+
+export type WeddingStyle = 'Romantic' | 'Modern' | 'Regal' | 'Boho'
+
+export interface StyleImage {
+  id: string
+  url: string
+  caption: string
+  style: WeddingStyle
+}
+
+export interface StyleQuizResult {
+  dominantStyle: WeddingStyle
+  breakdown: Record<WeddingStyle, number>
+  likedIds: string[]
+  completedAt: string
 }
 
 // ─── Polls ───────────────────────────────────────────────────────────────────
@@ -37,15 +68,12 @@ export interface Poll {
   authorName: string
   question: string
   options: PollOption[]
-  votes: Record<number, number>  // optionIndex → voteCount
-  userVote?: number               // which option current user voted for
+  votes: Record<number, number>
+  userVote?: number
   comments: Comment[]
-  imageUrl?: string
   tags?: string[]
   createdAt: string
 }
-
-// ─── Comments ────────────────────────────────────────────────────────────────
 
 export interface Comment {
   id: string
@@ -75,5 +103,6 @@ export interface Vendor {
   description: string
   imageUrl: string
   tags: string[]
+  styles: WeddingStyle[]
   available: boolean
 }
