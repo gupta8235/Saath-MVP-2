@@ -2,9 +2,9 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { saveProfile, generateId } from '@/lib/storage'
+import { saveProfile } from '@/lib/storage'
 import type { WeddingProfile, BudgetRange, StyleVibe } from '@/lib/types'
-import { Heart, MapPin, Users, Wallet, Sparkles, ArrowRight, ArrowLeft, Check } from 'lucide-react'
+import { ArrowRight, ArrowLeft, Check } from 'lucide-react'
 
 const VIBES: StyleVibe[] = [
   'Regal & Traditional',
@@ -25,7 +25,7 @@ const BUDGETS: BudgetRange[] = [
 const STEPS = [
   { id: 1, label: 'You & your partner' },
   { id: 2, label: 'The big day' },
-  { id: 3, label: 'Budget & vibe' },
+  { id: 3, label: 'Style & budget' },
 ]
 
 export default function OnboardingPage() {
@@ -46,12 +46,9 @@ export default function OnboardingPage() {
     setForm(prev => ({ ...prev, [key]: value }))
 
   const toggleVibe = (v: StyleVibe) =>
-    set(
-      'vibes',
-      form.vibes.includes(v)
-        ? form.vibes.filter(x => x !== v)
-        : [...form.vibes, v]
-    )
+    set('vibes', form.vibes.includes(v)
+      ? form.vibes.filter(x => x !== v)
+      : [...form.vibes, v])
 
   const canProceed = () => {
     if (step === 1) return form.name.trim() && form.partnerName.trim()
@@ -62,7 +59,6 @@ export default function OnboardingPage() {
 
   const handleNext = () => {
     if (step < 3) { setStep(s => s + 1); return }
-    // Final submit
     const profile: WeddingProfile = {
       name: form.name.trim(),
       partnerName: form.partnerName.trim(),
@@ -78,179 +74,159 @@ export default function OnboardingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blush via-ivory to-mist flex flex-col items-center justify-center px-4 py-12">
+    <div className="min-h-screen bg-ivory flex">
 
-      {/* Logo */}
-      <div className="mb-8 text-center fade-up">
-        <h1 className="font-serif text-5xl text-bark tracking-tight">साथ</h1>
-        <p className="text-rose text-sm mt-1 font-medium tracking-wide">Plan together. Decide with confidence.</p>
-      </div>
-
-      {/* Step indicators */}
-      <div className="flex items-center gap-2 mb-8 fade-up">
-        {STEPS.map((s, i) => (
-          <div key={s.id} className="flex items-center gap-2">
-            <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-semibold transition-all
-              ${step > s.id ? 'bg-bark text-ivory' : step === s.id ? 'bg-rose text-ivory ring-4 ring-rose/20' : 'bg-blush text-mauve'}`}>
-              {step > s.id ? <Check size={13} /> : s.id}
-            </div>
-            <span className={`text-xs hidden sm:block ${step === s.id ? 'text-bark font-medium' : 'text-mauve'}`}>{s.label}</span>
-            {i < STEPS.length - 1 && <div className={`w-8 h-px ${step > s.id ? 'bg-bark' : 'bg-mauve/40'}`} />}
-          </div>
-        ))}
-      </div>
-
-      {/* Card */}
-      <div className="card w-full max-w-md p-8 fade-up">
-
-        {/* Step 1: Names */}
-        {step === 1 && (
-          <div className="space-y-6">
-            <div className="flex items-center gap-3 mb-2">
-              <Heart className="text-rose" size={22} />
-              <h2 className="font-serif text-2xl text-bark">You & your partner</h2>
-            </div>
-            <p className="text-sm text-mauve -mt-3">Let's start with the most important names.</p>
-
-            <div className="space-y-4">
-              <div>
-                <label className="block text-xs font-medium text-bark mb-1.5">Your name</label>
-                <input
-                  className="input"
-                  placeholder="e.g. Priya"
-                  value={form.name}
-                  onChange={e => set('name', e.target.value)}
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-medium text-bark mb-1.5">Partner's name</label>
-                <input
-                  className="input"
-                  placeholder="e.g. Arjun"
-                  value={form.partnerName}
-                  onChange={e => set('partnerName', e.target.value)}
-                />
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Step 2: Date, Location, Guests */}
-        {step === 2 && (
-          <div className="space-y-6">
-            <div className="flex items-center gap-3 mb-2">
-              <MapPin className="text-rose" size={22} />
-              <h2 className="font-serif text-2xl text-bark">The big day</h2>
-            </div>
-            <p className="text-sm text-mauve -mt-3">Tell us about your celebration.</p>
-
-            <div className="space-y-4">
-              <div>
-                <label className="block text-xs font-medium text-bark mb-1.5">Wedding date</label>
-                <input
-                  type="date"
-                  className="input"
-                  value={form.weddingDate}
-                  onChange={e => set('weddingDate', e.target.value)}
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-medium text-bark mb-1.5">Location / City</label>
-                <input
-                  className="input"
-                  placeholder="e.g. Jaipur, Rajasthan"
-                  value={form.location}
-                  onChange={e => set('location', e.target.value)}
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-medium text-bark mb-1.5">
-                  <Users size={13} className="inline mr-1" />
-                  Approx. guest count
-                </label>
-                <input
-                  type="number"
-                  className="input"
-                  placeholder="e.g. 300"
-                  value={form.guestCount}
-                  onChange={e => set('guestCount', e.target.value)}
-                />
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Step 3: Budget + Vibe */}
-        {step === 3 && (
-          <div className="space-y-6">
-            <div className="flex items-center gap-3 mb-2">
-              <Sparkles className="text-gold" size={22} />
-              <h2 className="font-serif text-2xl text-bark">Budget & vibe</h2>
-            </div>
-            <p className="text-sm text-mauve -mt-3">This helps us personalise your recommendations.</p>
-
-            <div>
-              <label className="block text-xs font-medium text-bark mb-2">
-                <Wallet size={13} className="inline mr-1" />
-                Total wedding budget
-              </label>
-              <div className="grid grid-cols-2 gap-2">
-                {BUDGETS.map(b => (
-                  <button
-                    key={b}
-                    onClick={() => set('budget', b)}
-                    className={`text-sm px-3 py-2 rounded-xl border font-medium transition-all
-                      ${form.budget === b
-                        ? 'bg-bark text-ivory border-bark'
-                        : 'bg-white text-bark border-mauve hover:border-rose hover:bg-blush'
-                      }`}
-                  >
-                    {b}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-xs font-medium text-bark mb-2">Wedding vibe <span className="text-mauve">(pick all that fit)</span></label>
-              <div className="flex flex-wrap gap-2">
-                {VIBES.map(v => (
-                  <button
-                    key={v}
-                    onClick={() => toggleVibe(v)}
-                    className={`text-xs px-3.5 py-1.5 rounded-full border font-medium transition-all
-                      ${form.vibes.includes(v)
-                        ? 'bg-rose text-ivory border-rose'
-                        : 'bg-white text-bark border-mauve hover:border-rose hover:bg-blush'
-                      }`}
-                  >
-                    {v}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Navigation */}
-        <div className={`mt-8 flex ${step > 1 ? 'justify-between' : 'justify-end'}`}>
-          {step > 1 && (
-            <button className="btn-ghost flex items-center gap-2" onClick={() => setStep(s => s - 1)}>
-              <ArrowLeft size={15} /> Back
-            </button>
-          )}
-          <button
-            className={`btn-primary flex items-center gap-2 ${!canProceed() ? 'opacity-40 pointer-events-none' : ''}`}
-            onClick={handleNext}
-          >
-            {step === 3 ? 'Let\'s begin' : 'Continue'}
-            <ArrowRight size={15} />
-          </button>
+      {/* Left panel — decorative */}
+      <div className="hidden lg:flex lg:w-1/2 bg-petal flex-col justify-between p-16">
+        <div>
+          <h1 className="font-serif text-3xl text-bark tracking-tight">Saath</h1>
+          <p className="text-mauve text-sm mt-1 tracking-widest uppercase">Wedding Planning</p>
         </div>
+        <div className="space-y-4">
+          <p className="font-serif text-5xl text-bark leading-tight italic">
+            "Plan your wedding with clarity, confidence & community."
+          </p>
+        </div>
+        <p className="text-xs text-mauve tracking-wide">
+          {new Date().getFullYear()} · Saath
+        </p>
       </div>
 
-      {/* Footer */}
-      <p className="mt-6 text-xs text-mauve fade-up">Your data stays on your device · No account needed</p>
+      {/* Right panel — form */}
+      <div className="w-full lg:w-1/2 flex flex-col items-center justify-center px-8 py-16">
+
+        {/* Mobile logo */}
+        <div className="mb-10 text-center lg:hidden fade-up">
+          <h1 className="font-serif text-4xl text-bark tracking-tight">Saath</h1>
+          <p className="text-mauve text-xs mt-1 tracking-widest uppercase">Wedding Planning</p>
+        </div>
+
+        {/* Progress */}
+        <div className="flex items-center gap-3 mb-10 fade-up">
+          {STEPS.map((s, i) => (
+            <div key={s.id} className="flex items-center gap-3">
+              <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-medium transition-all
+                ${step > s.id ? 'bg-bark text-white' : step === s.id ? 'bg-bark text-white' : 'bg-petal text-mauve'}`}>
+                {step > s.id ? <Check size={12} /> : s.id}
+              </div>
+              {i < STEPS.length - 1 && (
+                <div className={`w-10 h-px ${step > s.id ? 'bg-bark' : 'bg-petal'}`} />
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* Form card */}
+        <div className="w-full max-w-sm fade-up">
+
+          {/* Step labels */}
+          <p className="text-xs text-mauve tracking-widest uppercase mb-2">Step {step} of 3</p>
+
+          {/* Step 1 */}
+          {step === 1 && (
+            <div className="space-y-6">
+              <div>
+                <h2 className="font-serif text-3xl text-bark mb-1">You & your partner</h2>
+                <p className="text-sm text-mauve">Let's start with the two of you.</p>
+              </div>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-xs font-medium text-bark/70 mb-1.5 tracking-wide uppercase">Your name</label>
+                  <input className="input" placeholder="e.g. Priya" value={form.name}
+                    onChange={e => set('name', e.target.value)} />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-bark/70 mb-1.5 tracking-wide uppercase">Partner's name</label>
+                  <input className="input" placeholder="e.g. Arjun" value={form.partnerName}
+                    onChange={e => set('partnerName', e.target.value)} />
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Step 2 */}
+          {step === 2 && (
+            <div className="space-y-6">
+              <div>
+                <h2 className="font-serif text-3xl text-bark mb-1">The big day</h2>
+                <p className="text-sm text-mauve">Tell us about your celebration.</p>
+              </div>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-xs font-medium text-bark/70 mb-1.5 tracking-wide uppercase">Wedding date</label>
+                  <input type="date" className="input" value={form.weddingDate}
+                    onChange={e => set('weddingDate', e.target.value)} />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-bark/70 mb-1.5 tracking-wide uppercase">City / Venue location</label>
+                  <input className="input" placeholder="e.g. Jaipur, Rajasthan" value={form.location}
+                    onChange={e => set('location', e.target.value)} />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-bark/70 mb-1.5 tracking-wide uppercase">Guest count</label>
+                  <input type="number" className="input" placeholder="e.g. 250" value={form.guestCount}
+                    onChange={e => set('guestCount', e.target.value)} />
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Step 3 */}
+          {step === 3 && (
+            <div className="space-y-6">
+              <div>
+                <h2 className="font-serif text-3xl text-bark mb-1">Style & budget</h2>
+                <p className="text-sm text-mauve">Helps us personalise your experience.</p>
+              </div>
+
+              <div>
+                <label className="block text-xs font-medium text-bark/70 mb-3 tracking-wide uppercase">Total budget</label>
+                <div className="grid grid-cols-2 gap-2">
+                  {BUDGETS.map(b => (
+                    <button key={b} onClick={() => set('budget', b)}
+                      className={`text-sm px-3 py-2.5 rounded-xl border font-medium transition-all text-left
+                        ${form.budget === b ? 'bg-bark text-white border-bark' : 'bg-white text-bark border-petal hover:border-bark/30'}`}>
+                      {b}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-medium text-bark/70 mb-3 tracking-wide uppercase">
+                  Wedding vibe <span className="normal-case text-mauve">(pick all that fit)</span>
+                </label>
+                <div className="flex flex-wrap gap-2">
+                  {VIBES.map(v => (
+                    <button key={v} onClick={() => toggleVibe(v)}
+                      className={`text-xs px-4 py-2 rounded-full border font-medium transition-all tracking-wide
+                        ${form.vibes.includes(v) ? 'bg-bark text-white border-bark' : 'bg-white text-bark border-petal hover:border-bark/30'}`}>
+                      {v}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Navigation */}
+          <div className={`mt-10 flex ${step > 1 ? 'justify-between' : 'justify-end'}`}>
+            {step > 1 && (
+              <button className="btn-ghost flex items-center gap-2" onClick={() => setStep(s => s - 1)}>
+                <ArrowLeft size={14} /> Back
+              </button>
+            )}
+            <button
+              className={`btn-primary flex items-center gap-2 ${!canProceed() ? 'opacity-30 pointer-events-none' : ''}`}
+              onClick={handleNext}
+            >
+              {step === 3 ? 'Get started' : 'Continue'} <ArrowRight size={14} />
+            </button>
+          </div>
+        </div>
+
+        <p className="mt-12 text-xs text-mauve fade-up">Your data stays on your device · No account needed</p>
+      </div>
     </div>
   )
 }

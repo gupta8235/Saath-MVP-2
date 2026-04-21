@@ -8,17 +8,17 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        blush:    '#F5E6E8',
-        ivory:    '#FDFAF8',
-        mauve:    '#D4B8C4',
-        rose:     '#C97A9A',
-        gold:     '#C9A96E',
-        bark:     '#7B3D5E',
-        petal:    '#EDD5DC',
-        mist:     '#F0EBF4',
+        blush:    '#F5F1EC',   // warm stone — backgrounds, tags
+        ivory:    '#FAFAF7',   // page background
+        mauve:    '#9A9187',   // secondary text, borders
+        rose:     '#5C4A3A',   // dark warm brown — active states, CTAs
+        gold:     '#C9A96E',   // champagne gold accent
+        bark:     '#1C1C1C',   // near black — primary text
+        petal:    '#EDE8E2',   // light stone — subtle fills
+        mist:     '#F8F5F1',   // warm white — card backgrounds
       },
       fontFamily: {
-        serif:  ['Playfair Display', 'Georgia', 'serif'],
+        serif:  ['Cormorant Garamond', 'Georgia', 'serif'],
         sans:   ['Inter', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
