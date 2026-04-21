@@ -19,6 +19,7 @@ export default function Nav() {
   const links = [
     { href: '/dashboard', label: 'Planning'  },
     { href: '/style-quiz', label: 'Style'    },
+    { href: '/decor',      label: 'Decor'    },
     { href: '/feed',       label: 'Community' },
     { href: '/vendors',    label: 'Vendors'   },
   ]

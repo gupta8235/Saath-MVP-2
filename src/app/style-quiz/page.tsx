@@ -38,7 +38,7 @@ export default function StyleQuizPage() {
 
       if (nextIndex >= STYLE_IMAGES.length) {
         // Calculate result
-        const breakdown: Record<WeddingStyle, number> = { Romantic: 0, Modern: 0, Regal: 0, Boho: 0 }
+        const breakdown: Record<WeddingStyle, number> = { Festive: 0, Garden: 0, Palatial: 0, Modern: 0 }
         const finalLiked = likeThis ? [...liked, img.id] : liked
         finalLiked.forEach(id => {
           const si = STYLE_IMAGES.find(s => s.id === id)
@@ -128,8 +128,11 @@ export default function StyleQuizPage() {
           )}
 
           <div className="flex flex-col sm:flex-row gap-3 pt-2">
-            <Link href="/vendors" className="btn-primary flex items-center justify-center gap-2">
-              See matched vendors <ArrowRight size={14} />
+            <Link href="/decor" className="btn-primary flex items-center justify-center gap-2">
+              See decor guide <ArrowRight size={14} />
+            </Link>
+            <Link href="/vendors" className="btn-ghost flex items-center justify-center gap-2">
+              Browse vendors <ArrowRight size={14} />
             </Link>
             <button onClick={restart} className="btn-ghost flex items-center justify-center gap-2">
               <RotateCcw size={14} /> Retake quiz
@@ -151,8 +154,11 @@ export default function StyleQuizPage() {
           <h1 className="font-serif text-5xl italic text-ink">{profile.label}</h1>
           <p className="text-sm text-dim max-w-md mx-auto">{profile.description}</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center pt-4">
-            <Link href="/vendors" className="btn-primary flex items-center justify-center gap-2">
-              See matched vendors <ArrowRight size={14} />
+            <Link href="/decor" className="btn-primary flex items-center justify-center gap-2">
+              See decor guide <ArrowRight size={14} />
+            </Link>
+            <Link href="/vendors" className="btn-ghost flex items-center justify-center gap-2">
+              Browse vendors <ArrowRight size={14} />
             </Link>
             <button onClick={restart} className="btn-ghost flex items-center justify-center gap-2">
               <RotateCcw size={14} /> Retake

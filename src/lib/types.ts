@@ -40,7 +40,7 @@ export interface WeddingDecision {
 
 // ─── Style Quiz ───────────────────────────────────────────────────────────────
 
-export type WeddingStyle = 'Romantic' | 'Modern' | 'Regal' | 'Boho'
+export type WeddingStyle = 'Festive' | 'Garden' | 'Palatial' | 'Modern'
 
 export interface StyleImage {
   id: string

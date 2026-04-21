@@ -169,7 +169,10 @@ export default function DashboardPage() {
               <p className="font-serif text-xl text-ink">{styleProfile.label}</p>
               <p className="text-sm text-dim mt-1 leading-relaxed">{styleProfile.description}</p>
             </div>
-            <Link href="/vendors" className="btn-ghost py-2 px-4 text-2xs flex-shrink-0">View vendors</Link>
+            <div className="flex flex-col gap-2 flex-shrink-0">
+              <Link href="/decor" className="btn-primary py-2 px-4 text-2xs">View decor guide</Link>
+              <Link href="/vendors" className="btn-ghost py-2 px-4 text-2xs text-center">Browse vendors</Link>
+            </div>
           </div>
         ) : (
           <div className="bg-surface border border-border p-6 flex items-center justify-between gap-4">
