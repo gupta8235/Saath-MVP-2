@@ -45,10 +45,24 @@ export function updateDecision(id: string, patch: Partial<WeddingDecision>): voi
 
 // ─── Style Quiz ───────────────────────────────────────────────────────────────
 
+const VALID_STYLES = ['Festive', 'Garden', 'Palatial', 'Modern'] as const
+
 export function getQuizResult(): StyleQuizResult | null {
   if (typeof window === 'undefined') return null
   const raw = localStorage.getItem(KEYS.quiz)
-  return raw ? JSON.parse(raw) : null
+  if (!raw) return null
+  try {
+    const result: StyleQuizResult = JSON.parse(raw)
+    // Clear stale results that used the old style names (Romantic/Modern/Regal/Boho)
+    if (!VALID_STYLES.includes(result.dominantStyle as typeof VALID_STYLES[number])) {
+      localStorage.removeItem(KEYS.quiz)
+      return null
+    }
+    return result
+  } catch {
+    localStorage.removeItem(KEYS.quiz)
+    return null
+  }
 }
 
 export function saveQuizResult(result: StyleQuizResult): void {
